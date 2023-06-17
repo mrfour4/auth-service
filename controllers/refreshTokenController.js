@@ -10,6 +10,7 @@ const {
 const { getPublicKeyRaw, getPublicKeyPem } = require("./dataController");
 
 const handleRefreshToken = async (req, res) => {
+    console.log("request: ", req)
     const cookies = req.cookies;
     if (!cookies?.jwt) return res.sendStatus(401);
 
@@ -25,7 +26,8 @@ const handleRefreshToken = async (req, res) => {
         // secure: true,
     });
 
-    const user = jwtDecode(refreshToken)?.UserInfo?.username;
+    console.log("resetRefreshToken: ", refreshToken)
+    const user = jwtDecode(refreshToken)?.username;
     if (!user) return res.sendStatus(403); //Forbidden
 
     const foundUser = await User.findOne({ username: user }).exec();
@@ -80,7 +82,7 @@ const handleRefreshToken = async (req, res) => {
                     },
                 },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: "30s" }
+                { expiresIn: "1d" }
             );
 
             const newRefreshToken = jwt.sign(

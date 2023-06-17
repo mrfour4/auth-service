@@ -40,7 +40,7 @@ const handleLogin = async (req, res) => {
                 },
             },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: "30s" }
+            { expiresIn: "1d" }
         );
         const newRefreshToken = jwt.sign(
             { username: foundUser.username },
@@ -80,7 +80,7 @@ const handleLogin = async (req, res) => {
 
         oldRefreshToken = [...newRefreshTokenArray, newRefreshToken];
         // Rest of your code using the oldRefreshToken
-        console.log(oldRefreshToken);
+        console.log("oldRefreshToken: ", oldRefreshToken);
 
         await setRefreshToken(foundUser.username, oldRefreshToken);
 
