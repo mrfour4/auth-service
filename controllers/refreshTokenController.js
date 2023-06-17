@@ -25,7 +25,7 @@ const handleRefreshToken = async (req, res) => {
         // secure: true,
     });
 
-    const user = jwtDecode(refreshToken)?.username;
+    const user = jwtDecode(refreshToken)?.UserInfo?.username;
     if (!user) return res.sendStatus(403); //Forbidden
 
     const foundUser = await User.findOne({ username: user }).exec();
